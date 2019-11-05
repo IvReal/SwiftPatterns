@@ -12,13 +12,45 @@ class Game {
     static let shared = Game()
     private init() {
         self.results = self.resCaretaker.restore()
+        self.reloadQuestions()
     }
     
+    var questionStrategy: QuestionStrategy = QuestionStrategy.Sequential
     var gameSession: GameSession?
     var results: [GameResult]
+    var questions: [Question] = []
 
     private let resCaretaker = ResultsCaretaker()
+    private let questionCaretaker = UserQuestionCaretaker()
 
+    func reloadQuestions() {
+        questions = []
+        // basic set
+        var a: [String] = ["коллекцию", "коррупцию", "конструкцию", "информацию"]
+        var q = Question(question: "Что не собирают?", answers: a, rightAnswer: 2)
+        questions.append(q)
+        a = ["совковая", "граблевая", "тяпковая", "мотыжная"]
+        q = Question(question: "Какая бывает лопата?", answers: a, rightAnswer: 1)
+        questions.append(q)
+        a = ["\"Варяг\"", "\"Кореец\"", "\"Викинг\"", "\"Чухонец\""]
+        q = Question(question: "Как называется фильм, снятый по мотивам \"Повести временных лет\"?", answers: a, rightAnswer: 3)
+        questions.append(q)
+        a = ["на пальцы", "на уши", "на волосы", "на зубы"]
+        q = Question(question: "На что надевают брекеты?", answers: a, rightAnswer: 4)
+        questions.append(q)
+        a = ["дельфин", "медведь", "попугай", "крокодил"]
+        q = Question(question: "Кто такой ара?", answers: a, rightAnswer: 3)
+        questions.append(q)
+        // user set
+        let userQuestions = self.questionCaretaker.restore()
+        if userQuestions.count > 0 {
+            for q in userQuestions {
+                questions.append(q)
+            }
+        }
+        print("Questions:\n\(questions)")
+    }
+    
     func startNewGameSession(session: GameSession) {
         self.gameSession = session
     }
@@ -30,29 +62,54 @@ class Game {
         self.resCaretaker.save(results: results)
         gameSession = nil
     }
+    
+    func addUserQuestion(_ question: Question) {
+        var userQuestions = questionCaretaker.restore()
+        userQuestions.append(question)
+        questionCaretaker.save(questions: userQuestions)
+        reloadQuestions()
+    }
+    
+    func clearUserQuestions() {
+        questionCaretaker.clear()
+        reloadQuestions()
+    }
+    
+    func clearResults() {
+        resCaretaker.clear()
+    }
 }
 
 class GameSession {
     private let questions: [Question]
-    private(set) var currentStep: Int
+    private(set) var currentStep = Observable<Int>(0)
+    private var currentQuestion: Question?
     var questionCount: Int { return questions.count }
-    var rightAnswersCount: Int
-    var resultInPercent: Int { return rightAnswersCount * 100 / questionCount }
+    var rightAnswersCount: Int = 0
+    var resultInPercent: Int
+    {
+        return rightAnswersCount * 100 / questionCount
+    }
+    private var questionChoiceStrategy: QuestionChoiceStrategy
 
     init(questions: [Question]) {
         self.questions = questions
-        self.rightAnswersCount = 0
-        self.currentStep = 0
+        if (Game.shared.questionStrategy == QuestionStrategy.Random) {
+            self.questionChoiceStrategy = RandomQuestionStrategy()
+        } else {
+            self.questionChoiceStrategy = SequentialQuestionStrategy()
+        }
+        self.questionChoiceStrategy.questions = questions
     }
     
     func nextStep() -> Question? {
-        currentStep += 1
-        if (currentStep > questions.count) { return nil }
-        return questions[currentStep - 1]
+        currentQuestion = self.questionChoiceStrategy.getNextQuestion()
+        if (currentQuestion != nil) { currentStep.value += 1  }
+        return currentQuestion
     }
     
     func checkCurrentAnswer(answerNumber: Int) -> Bool {
-        guard let curQuestion = currentStep > questions.count ? nil : questions[currentStep - 1] else { return false }
+        guard let curQuestion = currentQuestion else { return false }
         let res = curQuestion.rightAnswer == answerNumber
         if (res) { rightAnswersCount += 1 }
         return res
@@ -62,30 +119,4 @@ class GameSession {
 struct GameResult: Codable {
     let date: Date
     let percent: Int
-}
-
-
-final class ResultsCaretaker {
-    private let encoder = JSONEncoder()
-    private let decoder = JSONDecoder()
-    private let key = "results"
-    func save(results: [GameResult]) {
-        do {
-            let data = try self.encoder.encode(results)
-            UserDefaults.standard.set(data, forKey: key)
-        } catch {
-            print(error)
-        }
-    }
-    func restore() -> [GameResult] {
-        guard let data = UserDefaults.standard.data(forKey: key) else {
-            return []
-        }
-        do {
-            return try self.decoder.decode([GameResult].self, from: data)
-        } catch {
-            print(error)
-            return []
-        }
-    }
 }
