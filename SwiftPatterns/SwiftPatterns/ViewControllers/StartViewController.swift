@@ -26,6 +26,14 @@ class StartViewController: UIViewController {
                 break
         }
     }
+    
+    @IBAction func settingsUnwindAction(​unwindSegue​: UIStoryboardSegue) {
+        
+    }
+    
+    @IBAction func addQuestionUnwindAction(​unwindSegue​: UIStoryboardSegue) {
+        
+    }
 }
 
 extension StartViewController: GameViewControllerDelegate {

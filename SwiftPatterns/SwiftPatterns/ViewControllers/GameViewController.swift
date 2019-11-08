@@ -37,44 +37,26 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var questions = [Question]()
-        var a: [String] = ["коллекцию", "коррупцию", "конструкцию", "информацию"]
-        var q = Question(question: "Что не собирают?", answers: a, rightAnswer: 2)
-        questions.append(q)
-        a = ["совковая", "граблевая", "тяпковая", "мотыжная"]
-        q = Question(question: "Какая бывает лопата?", answers: a, rightAnswer: 1)
-        questions.append(q)
-        a = ["\"Варяг\"", "\"Кореец\"", "\"Викинг\"", "\"Чухонец\""]
-        q = Question(question: "Как называется фильм, снятый по мотивам \"Повести временных лет\"?", answers: a, rightAnswer: 3)
-        questions.append(q)
-        a = ["на пальцы", "на уши", "на волосы", "на зубы"]
-        q = Question(question: "На что надевают брекеты?", answers: a, rightAnswer: 4)
-        questions.append(q)
-        a = ["дельфин", "медведь", "попугай", "крокодил"]
-        q = Question(question: "Кто такой ара?", answers: a, rightAnswer: 3)
-        questions.append(q)
-        
-        print("Questions:\n\(questions)")
-        
         button1.tag = 1
         button2.tag = 2
         button3.tag = 3
         button4.tag = 4
         
-        currentSession = GameSession(questions: questions)
+        currentSession = GameSession(questions: Game.shared.questions)
+        currentSession?.currentStep.addObserver(self, options: [.new, .initial], closure: { [weak self] (curStep, _) in
+            guard let session = self?.currentSession else { return }
+            self?.labelHeader.text = "Вопрос \(curStep) из \(session.questionCount), правильных \(session.resultInPercent)%"
+        })
         Game.shared.startNewGameSession(session: currentSession!)
         
         DoNextStep()
     }
     
     func DoNextStep() {
-        guard let question = currentSession?.nextStep(),
-              let session = currentSession
-        else {
+        guard let question = currentSession?.nextStep() else {
             self.gameOver(withResult: 1)
             return
         }
-        labelHeader.text = "Вопрос \(session.currentStep) из \(session.questionCount)"
         labelQuestion.text = question.question
         button1.setTitle(question.answers[0], for: UIControl.State.normal)
         button2.setTitle(question.answers[1], for: UIControl.State.normal)
