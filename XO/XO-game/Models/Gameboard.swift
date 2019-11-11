@@ -38,6 +38,33 @@ public final class Gameboard {
         return positions[column][row] == player
     }
     
+    public func isFull() -> Bool {
+        for position in positions {
+            for player in position {
+                if (player == nil) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
+    
+    public func getRandomFreePosition() -> GameboardPosition? {
+        var freePositions: [GameboardPosition] = []
+        for col in 0..<GameboardSize.columns {
+            for row in 0..<GameboardSize.rows {
+                if positions[col][row] == nil {
+                    freePositions.append(GameboardPosition(column: col, row: row))
+                }
+            }
+        }
+        if freePositions.count > 0 {
+            let randomIndex = Int.random(in: 0..<freePositions.count)
+            return freePositions[randomIndex]
+        }
+        return nil
+    }
+    
     // MARK: - Private
     
     private func initialPositions() -> [[Player?]] {
