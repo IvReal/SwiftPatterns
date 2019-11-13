@@ -63,8 +63,8 @@ class TasksTableViewController: UITableViewController {
         // Create OK button with action handler
         let ok = UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
             if let userInput = userIdTextField!.text {
-                if let r = self.rootTask as? MyTask {
-                    r.subtasks.append(MyTask(name: userInput))
+                if let r = self.rootTask {
+                    r.add(task: MyTask(name: userInput))
                     self.tableView.reloadData()
                 }
            }
