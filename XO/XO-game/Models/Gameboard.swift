@@ -38,6 +38,7 @@ public final class Gameboard {
         return positions[column][row] == player
     }
     
+    // заполнена ли доска
     public func isFull() -> Bool {
         for position in positions {
             for player in position {

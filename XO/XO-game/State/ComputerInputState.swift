@@ -42,20 +42,10 @@ public class ComputerInputState: GameState {
     }
     
     public func addMark(at position: GameboardPosition) {
-        Log(.playerInput(player: self.player, position: position))
+        //Log(.playerInput(player: self.player, position: position))
         guard let gameboardView = self.gameboardView
             , gameboardView.canPlaceMarkView(at: position)
             else { return }
-        /*let markView: MarkView
-        switch self.player {
-        case .first:
-            markView = XView()
-        case .second:
-            markView = OView()
-        }
-        self.gameboard?.setPlayer(self.player, at: position)
-        self.gameboardView?.placeMarkView(markView, at: position)
-        self.isCompleted = true*/
         self.gameboard?.setPlayer(self.player, at: position)
         self.gameboardView?.placeMarkView(self.markViewPrototype.copy(), at: position)
         self.isCompleted = true

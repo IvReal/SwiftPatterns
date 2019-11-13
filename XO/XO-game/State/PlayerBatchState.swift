@@ -1,22 +1,22 @@
 //
-//  PlayerInputState.swift
+//  PlayerBatchState.swift
 //  XO-game
 //
-//  Created by Iv on 11.11.2019.
+//  Created by Iv on 12.11.2019.
 //  Copyright © 2019 plasmon. All rights reserved.
 //
 
 import Foundation
 
-public class PlayerInputState: GameState {
+public class PlayerBatchState: GameState {
     
     public private(set) var isCompleted = false
+    public private(set) var counter = 5
     
     public let player: Player
     private(set) weak var gameViewController: GameViewController?
     private(set) weak var gameboard: Gameboard?
     private(set) weak var gameboardView: GameboardView?
-
     public let markViewPrototype: MarkView
 
     init(player: Player, markViewPrototype: MarkView, gameViewController: GameViewController, gameboard: Gameboard, gameboardView: GameboardView) {
@@ -26,7 +26,7 @@ public class PlayerInputState: GameState {
         self.gameboard = gameboard
         self.gameboardView = gameboardView
     }
-    
+
     public func begin() {
         switch self.player {
         case .first:
@@ -40,13 +40,16 @@ public class PlayerInputState: GameState {
     }
     
     public func addMark(at position: GameboardPosition) {
-        //Log(.playerInput(player: self.player, position: position))
         guard let gameboardView = self.gameboardView
             , gameboardView.canPlaceMarkView(at: position)
             else { return }
-        //GameInvoker.shared.addGameCommand(GameCommand(player: self.player, position: position, board: self.gameboard, view: self.gameboardView))
-        self.gameboard?.setPlayer(self.player, at: position)
-        self.gameboardView?.placeMarkView(self.markViewPrototype.copy(), at: position)
-        self.isCompleted = true
+        if GameInvoker.shared.addGameCommand(GameCommand(player: self.player, position: position, board: self.gameboard, view: self.gameboardView)) {
+            counter -= 1
+            Log(.playerInput(player: player, position: position))
+        }
+        if counter == 0 {
+            self.isCompleted = true
+        }
     }
+    
 }
