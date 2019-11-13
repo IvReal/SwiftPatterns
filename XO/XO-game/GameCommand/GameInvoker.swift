@@ -28,6 +28,7 @@ internal final class GameInvoker {
         return result
     }
     
+    // исполнение команд каждого игрока поочередно
     internal func executeCommands() {
         var commands1: [GameCommand] = []
         var commands2: [GameCommand] = []
@@ -47,9 +48,28 @@ internal final class GameInvoker {
         self.commands = []
     }
     
-    /*internal func isComplete() -> Bool {
-        return self.commands.count > GameboardSize.columns * GameboardSize.rows
-    }*/
+    // исполнение команд каждого игрока поочередно с проверкой победителя
+    internal func executeEachCommand(checkIsWinner: ()->Bool) {
+        var commands1: [GameCommand] = []
+        var commands2: [GameCommand] = []
+        for c in commands {
+            if c.player == Player.first {
+                commands1.append(c)
+            } else {
+                commands2.append(c)
+            }
+        }
+        var mixed_commands: [GameCommand] = []
+        for i in 0..<max(commands1.count, commands2.count) {
+            if i < commands1.count { mixed_commands.append(commands1[i]) }
+            if i < commands2.count { mixed_commands.append(commands2[i]) }
+        }
+        for c in mixed_commands {
+            c.execute()
+            if checkIsWinner() { break }
+        }
+        self.commands = []
+    }
     
     // проверяем не пытается ли один и тот же игрок поставить еще раз свою отметку в ту же позицию
     internal func checkCommand(_ command: GameCommand) -> Bool {

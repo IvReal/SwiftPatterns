@@ -69,7 +69,7 @@ class GameViewController: UIViewController {
                 if (state.player == Player.first) {
                     self.currentState = GetPlayerBatchState(player: state.player.next)
                 } else {
-                    self.currentState = BatchExecuteState(/*referee: referee*/)
+                    self.currentState = BatchExecuteState(referee: referee)
                     goToNextState()
                 }
             }
