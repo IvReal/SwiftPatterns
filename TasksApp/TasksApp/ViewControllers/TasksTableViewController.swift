@@ -66,6 +66,9 @@ class TasksTableViewController: UITableViewController {
                 if let r = self.rootTask {
                     r.add(task: MyTask(name: userInput))
                     self.tableView.reloadData()
+                    if let task = root as? MyTask {
+                        TaskCaretaker().save(task: task)
+                    }
                 }
            }
         })
