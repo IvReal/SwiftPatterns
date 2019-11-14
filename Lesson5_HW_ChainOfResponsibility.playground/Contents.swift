@@ -35,7 +35,7 @@ protocol PersonParseable {
 class ParserArray: PersonParseable {
     var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
-        print("try parser1")
+        print("try ParserArray")
         let decoder = JSONDecoder()
         var res: [Person]? = nil
         do {
@@ -53,7 +53,7 @@ class ParserArray: PersonParseable {
 class ParserKeyResult: PersonParseable {
     var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
-        print("try parser2")
+        print("try ParserKeyResult")
         let decoder = JSONDecoder()
         var res: [Person]? = nil
         do {
@@ -69,7 +69,7 @@ class ParserKeyResult: PersonParseable {
 class ParserKeyData: PersonParseable {
     var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
-        print("try parser3")
+        print("try ParserKeyData")
         let decoder = JSONDecoder()
         var res: [Person]? = nil
         do {
