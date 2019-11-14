@@ -40,6 +40,18 @@ public final class Referee {
         return nil
     }
     
+    // возвращает кортеж закончена ли игра и выявлен ли победитель
+    public func isGameOver() -> (Bool, Player?) {
+        var res: (Bool, Player?) = (false, nil)
+        if let winner = determineWinner() {
+            res.0 = true
+            res.1 = winner
+        } else if gameboard.isFull() {
+            res.0 = true
+        }
+        return res
+    }
+    
     // MARK: - Private
     
     private func generateWinsByColumn(result: inout [[GameboardPosition]]) {
