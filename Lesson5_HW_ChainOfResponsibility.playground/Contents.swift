@@ -27,13 +27,13 @@ struct ResultPersonResponse: Decodable {
     let result: [Person]
 }
 
-protocol Parseable {
+protocol PersonParseable {
     func parse(data: Data) -> [Person]?
 }
 
 // массив
-class Parse1: Parseable {
-    var next: Parseable?
+class ParserArray: PersonParseable {
+    var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
         print("try parser1")
         let decoder = JSONDecoder()
@@ -50,8 +50,8 @@ class Parse1: Parseable {
     }}
 
 // ключ result
-class Parse2: Parseable {
-    var next: Parseable?
+class ParserKeyResult: PersonParseable {
+    var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
         print("try parser2")
         let decoder = JSONDecoder()
@@ -66,8 +66,8 @@ class Parse2: Parseable {
     }}
 
 // ключ data
-class Parse3: Parseable {
-    var next: Parseable?
+class ParserKeyData: PersonParseable {
+    var next: PersonParseable?
     func parse(data: Data) -> [Person]? {
         print("try parser3")
         let decoder = JSONDecoder()
@@ -85,17 +85,23 @@ let data1 = data(from: "1")
 let data2 = data(from: "2")
 let data3 = data(from: "3")
 
-let p1 = Parse1()
-let p2 = Parse2()
-let p3 = Parse3()
-p1.next = p2
-p2.next = p3
+func ParseData(data: Data) -> [Person]? {
+    let p1 = ParserArray()
+    let p2 = ParserKeyResult()
+    let p3 = ParserKeyData()
+    p1.next = p2
+    p2.next = p3
+    let persons = p1.parse(data: data)
+    if let pp = persons {
+        for p in pp {
+            let status = (p.isDeveloper ?? false) ? "developer:-(" : "not developer"
+            print("Person \(p.name ?? ""): age \(p.age ?? 0) \(status)")
+        }
+    }
+    return persons
+}
 
-let res1 = p1.parse(data: data1)
-let res2 = p1.parse(data: data2)
-let res3 = p1.parse(data: data3)
-
-print("\(res1!)")
-print("\(res2!)")
-print("\(res3!)")
+var persons = ParseData(data: data1)
+persons = ParseData(data: data2)
+persons = ParseData(data: data3)
 
