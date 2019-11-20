@@ -30,8 +30,6 @@ final class ITunesSearchService {
         static let mediaType = "media"
     }
     
-    //https://itunes.apple.com/search?term=music&country=RU&media=software
-    
     public func getApps(forQuery query: String, then completion: CompletionApps?) {
         let regionCode = Locale.current.regionCode ?? defaultRegionCode
         var parameters: Parameters = [:]
@@ -40,6 +38,8 @@ final class ITunesSearchService {
         parameters[Parameter.mediaType] = MediaType.apps.rawValue
         
         let request = WebRequest(method: .get, url: baseUrl, parameters: parameters)
+        
+        decoder.dateDecodingStrategy = .iso8601
         
         networkManager.dataRequest(request) { [weak self] result in
             guard let self = self else {

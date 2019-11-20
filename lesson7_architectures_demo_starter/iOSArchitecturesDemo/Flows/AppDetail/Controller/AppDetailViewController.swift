@@ -13,7 +13,8 @@ final class AppDetailViewController: UIViewController {
     let app: ITunesApp
     
     lazy var headerViewController = AppDetailHeaderViewController(app: self.app)
-    
+    lazy var whatsnewViewController = AppDetailWhatsNewViewController(app: self.app)
+
     init(app: ITunesApp) {
         self.app = app
         super.init(nibName: nil, bundle: nil)
@@ -50,8 +51,17 @@ final class AppDetailViewController: UIViewController {
     }
     
     private func addDescriptionViewController() {
-        // TODO: ДЗ, сделать другие сабмодули
-        let descriptionViewController = UIViewController()
+        self.addChild(self.whatsnewViewController)
+        self.view.addSubview(self.whatsnewViewController.view)
+        self.whatsnewViewController.didMove(toParent: self)
+        
+        self.whatsnewViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            self.whatsnewViewController.view.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor),
+            self.whatsnewViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            self.whatsnewViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
+            ])
+        /*let descriptionViewController = UIViewController()
         
         self.addChild(descriptionViewController)
         self.view.addSubview(descriptionViewController.view)
@@ -63,7 +73,7 @@ final class AppDetailViewController: UIViewController {
             descriptionViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             descriptionViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             descriptionViewController.view.heightAnchor.constraint(equalToConstant: 250.0)
-            ])
+            ])*/
     }
     
     /*public var app: ITunesApp?
