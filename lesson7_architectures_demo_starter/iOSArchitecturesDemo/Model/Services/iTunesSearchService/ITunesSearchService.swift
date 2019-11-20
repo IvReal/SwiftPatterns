@@ -30,6 +30,8 @@ final class ITunesSearchService {
         static let mediaType = "media"
     }
     
+    //https://itunes.apple.com/search?term=music&country=RU&media=software
+    
     public func getApps(forQuery query: String, then completion: CompletionApps?) {
         let regionCode = Locale.current.regionCode ?? defaultRegionCode
         var parameters: Parameters = [:]

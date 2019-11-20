@@ -76,3 +76,41 @@ public struct ITunesApp: Codable {
         self.screenshotUrls = screenshotUrls
     }
 }
+
+/*
+ "trackCensoredName":"Радио музыкальный",
+ "languageCodesISO2A":["EN"],
+ --"fileSizeBytes":"142394368",
+ --"sellerUrl":"https://appysky.wordpress.com",
+ "contentAdvisoryRating":"4+",
+ --"averageUserRatingForCurrentVersion":4.5,
+ "userRatingCountForCurrentVersion":81,
+ "trackViewUrl":"https://apps.apple.com/ru/app/...",
+ "trackContentRating":"4+",
+ --"sellerName":"Luc Breton",
+ "minimumOsVersion":"9.0",
+ "currentVersionReleaseDate":"2019-10-04T23:30:16Z",
+ "trackId":1116648839,
+ --"trackName":"Радио музыкальный",
+ ----------"releaseDate":"2016-09-02T04:15:48Z",
+ "primaryGenreId":6011,
+ "formattedPrice":"Бесплатно",
+ ----------"releaseNotes":"√ UI Optimisations",
+ "isVppDeviceBasedLicensingEnabled":true,
+ "primaryGenreName":"Music",
+ "genreIds":["6011", "6016"],
+ "currency":"RUB",
+ ----------"version":"4.0.3",
+ "wrapperType":"software",
+ "artistId":976539506,
+ "artistName":"Luc Breton",
+ "genres":["Музыка", "Развлечения"],
+ "price":0.00,
+ --"description":"√ Discover Music on a collection of Live Radio station broadcasts...",
+ "bundleId":"com.luc.audiocloud",
+ --"averageUserRating":4.5,
+ "userRatingCount":296,
+ --"artistViewUrl":"https://apps.apple.com/ru/developer/yandex-llc/id308094652?uo=4",
+ --"artworkUrl512":"https://is2-ssl.mzstatic.com,
+ --"screenshotUrls":[]
+ */
