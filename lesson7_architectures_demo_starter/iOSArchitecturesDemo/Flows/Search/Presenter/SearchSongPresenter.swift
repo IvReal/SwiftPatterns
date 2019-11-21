@@ -50,23 +50,3 @@ extension SearchSongPresenter: SearchSongViewOutput {
     }
 }
 
-protocol SearchSongViewInput: class {
-    
-    var searchResults: [ITunesSong] { get set }
-    
-    func showError(error: Error)
-    
-    func showNoResults()
-    
-    func hideNoResults()
-    
-    func throbber(show: Bool)
-}
-
-protocol SearchSongViewOutput: class {
-    
-    func viewDidSearch(with query: String)
-    
-    func viewDidSelectSong(_ app: ITunesSong)
-}
-
