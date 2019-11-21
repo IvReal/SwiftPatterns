@@ -41,7 +41,7 @@ final class AppStartManager {
         navAppVC.viewControllers = [rootAppVC]
         navAppVC.tabBarItem = tabApp
         
-        let rootSongVC = SearchModuleBuilder.build()
+        let rootSongVC = SearchSongModuleBuilder.build()
         rootSongVC.navigationItem.title = "Search Songs via iTunes"
         let tabSong = UITabBarItem(title: "Song", image: UIImage(named: "friends48"), tag: 0)
         let navSongVC = configuredSongNC
