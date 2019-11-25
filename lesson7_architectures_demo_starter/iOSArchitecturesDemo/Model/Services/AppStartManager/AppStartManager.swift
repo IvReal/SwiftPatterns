@@ -48,7 +48,7 @@ final class AppStartManager {
         navSongVC.viewControllers = [rootSongVC]
         navSongVC.tabBarItem = tabSong
 
-        tabVC.viewControllers = [navAppVC, navSongVC];
+        tabVC.viewControllers = [navSongVC, navAppVC];
     }
     
     private lazy var configuredAppNC: UINavigationController = {

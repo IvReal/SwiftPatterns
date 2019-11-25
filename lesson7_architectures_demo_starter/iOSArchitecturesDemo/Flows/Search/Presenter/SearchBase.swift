@@ -32,6 +32,6 @@ protocol SearchViewOutput: class, SerachViewOutputBase {
 }
 
 protocol SearchSongViewOutput: class, SerachViewOutputBase {
-    func viewDidSelectSong(_ app: ITunesSong)
+    func viewDidSelectSong(_ song: ITunesSong)
 }
 
