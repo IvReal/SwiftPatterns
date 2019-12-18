@@ -34,6 +34,8 @@ final class SearchSongPresenter {
     }
         
     private func openSongDetails(with song: ITunesSong) {
+        let songDetailViewController = SongDetailViewController(song: song)
+        self.viewInput?.navigationController?.pushViewController(songDetailViewController, animated: true)
     }
 }
     
@@ -45,8 +47,8 @@ extension SearchSongPresenter: SearchSongViewOutput {
         self.requestSongs(with: query)
     }
         
-    func viewDidSelectSong(_ app: ITunesSong) {
-        self.openSongDetails(with: app)
+    func viewDidSelectSong(_ song: ITunesSong) {
+        self.openSongDetails(with: song)
     }
 }
 

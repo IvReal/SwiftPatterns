@@ -34,8 +34,8 @@ final class SearchPresenter {
     }
         
     private func openAppDetails(with app: ITunesApp) {
-        let appDetaillViewController = AppDetailViewController(app: app)
-        self.viewInput?.navigationController?.pushViewController(appDetaillViewController, animated: true)
+        let appDetailViewController = AppDetailViewController(app: app)
+        self.viewInput?.navigationController?.pushViewController(appDetailViewController, animated: true)
     }
 }
     

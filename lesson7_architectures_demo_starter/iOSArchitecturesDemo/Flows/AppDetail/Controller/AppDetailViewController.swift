@@ -61,56 +61,5 @@ final class AppDetailViewController: UIViewController {
             self.whatsnewViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
             self.whatsnewViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor)
             ])
-        /*let descriptionViewController = UIViewController()
-        
-        self.addChild(descriptionViewController)
-        self.view.addSubview(descriptionViewController.view)
-        descriptionViewController.didMove(toParent: self)
-        
-        descriptionViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            descriptionViewController.view.topAnchor.constraint(equalTo: self.headerViewController.view.bottomAnchor),
-            descriptionViewController.view.leftAnchor.constraint(equalTo: self.view.leftAnchor),
-            descriptionViewController.view.rightAnchor.constraint(equalTo: self.view.rightAnchor),
-            descriptionViewController.view.heightAnchor.constraint(equalToConstant: 250.0)
-            ])*/
     }
-    
-    /*public var app: ITunesApp?
-    
-    private let imageDownloader = ImageDownloader()
-    
-    private var appDetailView: AppDetailView {
-        return self.view as! AppDetailView
-    }
-    
-    // MARK: - Lifecycle
-    
-    override func loadView() {
-        super.loadView()
-        self.view = AppDetailView()
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.configureNavigationController()
-        self.downloadImage()
-    }
-    
-    // MARK: - Private
-    
-    private func configureNavigationController() {
-        self.navigationController?.navigationBar.tintColor = UIColor.white;
-        self.navigationItem.largeTitleDisplayMode = .never
-    }
-    
-    private func downloadImage() {
-        guard let url = self.app?.iconUrl else { return }
-        self.appDetailView.throbber.startAnimating()
-        self.imageDownloader.getImage(fromUrl: url) { (image, error) in
-            self.appDetailView.throbber.stopAnimating()
-            guard let image = image else { return }
-            self.appDetailView.imageView.image = image
-        }
-    }*/
 }
